@@ -5,15 +5,24 @@ const searchContainer = document.getElementById("search-field")
 searchContainer.addEventListener('keyup', logKey);
 
 const infoContainer = document.getElementById("country-info");
+const backGround = document.getElementById("container");
+
+
+
 
 // Fake een event
 const elem = document.getElementById('search-button');
+
 elem.addEventListener('click', function(e) {
     searchCountry("Nederland");
+
 });
 setTimeout(function() {
+    console.log("fake event");
     elem.dispatchEvent(new Event('click'));
 }, 0);
+
+
 
 function logKey(e) {
     console.log(e);
@@ -52,7 +61,7 @@ async function searchCountry(text) {
 
 
     try {
-        const result = await axios.get(`https://restcountries.eu/rest/v2/name/${text}?fullText=true`);
+        const result = await axios.get(`https://restcountries.eu/rest/v2/name/${text}`);
         console.log("text in try = " + text);
         console.log(result);
 
@@ -73,9 +82,17 @@ function createCountryInfoField(result){
     const country = document.createElement("div");
     country.setAttribute("id","country");
 
+    const backGroundText = document.createElement( "div");
+    backGroundText.setAttribute("id", "containerbackground");
+    backGroundText.textContent = (backGroundNames(result.data[0].translations));
+    console.log(backGroundText);
+    country.appendChild(backGroundText);
+
     const flagImage = document.createElement("IMG");
     flagImage.src = result.data[0].flag;
     country.appendChild(flagImage);
+
+    //document.getElementById("body").style.backgroundImage = flagImage;
 
     const landName = document.createElement("h1");
     landName.textContent = (result.data[0].name);
@@ -94,6 +111,9 @@ function createCountryInfoField(result){
     country.appendChild(landLanguages);
 
     infoContainer.appendChild(country);
+
+
+
 }
 function createLandPopulationString(land){
      return (`${land.name} is situated in ${land.subregion}. It has a population of ${land.population} people.`);
@@ -133,4 +153,16 @@ function createStringFromArray(array,beginString) {
             stringCreated += array[i] + ", ";
         }
     }
+}
+
+function backGroundNames(names){
+
+    let namesString = "";
+    let i = ""
+    for ( i in names){
+        //console.log("Names --> " + names[i]);
+        namesString += names[i] + "                       ";
+    }
+    //console.log("namesString -->" + namesString);
+    return namesString;
 }
