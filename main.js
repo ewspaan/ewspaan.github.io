@@ -5,7 +5,7 @@ const searchContainer = document.getElementById("search-field")
 searchContainer.addEventListener('keyup', logKey);
 
 const infoContainer = document.getElementById("country-info");
-const backGround = document.getElementById("container");
+const backGround = document.getElementById("body");
 
 
 
@@ -83,16 +83,15 @@ function createCountryInfoField(result){
     country.setAttribute("id","country");
 
     const backGroundText = document.createElement( "div");
-    backGroundText.setAttribute("id", "containerbackground");
+    backGroundText.setAttribute("id", "container-back-ground");
     backGroundText.textContent = (backGroundNames(result.data[0].translations));
     console.log(backGroundText);
-    country.appendChild(backGroundText);
+    backGround.appendChild(backGroundText);
 
     const flagImage = document.createElement("IMG");
     flagImage.src = result.data[0].flag;
     country.appendChild(flagImage);
 
-    //document.getElementById("body").style.backgroundImage = flagImage;
 
     const landName = document.createElement("h1");
     landName.textContent = (result.data[0].name);
@@ -159,10 +158,12 @@ function backGroundNames(names){
 
     let namesString = "";
     let i = ""
-    for ( i in names){
-        //console.log("Names --> " + names[i]);
-        namesString += names[i] + "                       ";
+    for (let a = 0; a < 10 ;a++) {
+        for (i in names) {
+            //console.log("Names --> " + names[i]);
+            namesString += names[i] + "                       ";
+        }
     }
-    //console.log("namesString -->" + namesString);
+    console.log("namesString -->" + namesString);
     return namesString;
 }
